@@ -1,3 +1,3 @@
 <template>
-    我是new
+    我是hot
 </template>
