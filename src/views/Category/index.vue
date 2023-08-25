@@ -3,6 +3,8 @@ import { getBannerAPI } from '@/apis/home';
 import { getCategoryAPI } from '@/apis/category';
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import GoodsItem from '../Home/components/GoodsItem.vue';
+
 //获取数据
 const categoryData = ref({})
 const route = useRoute()
@@ -11,6 +13,7 @@ const getCategory = async () => {
     categoryData.value = res.data.result
 }
 onMounted(() => getCategory())
+
 
 
 const bannerList = ref([])
@@ -25,6 +28,7 @@ const getBanner = async () => {
 }
 
 onMounted(() => getBanner())
+
 </script>
 
 <template>
@@ -34,7 +38,7 @@ onMounted(() => getBanner())
             <div class="bread-container">
                 <el-breadcrumb separator=">">
                     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item>居家</el-breadcrumb-item>
+                    <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
         </div>
@@ -45,6 +49,25 @@ onMounted(() => getBanner())
                     <img :src="item.imgUrl" alt="">
                 </el-carousel-item>
             </el-carousel>
+        </div>
+        <div class="sub-list">
+            <h3>全部分类</h3>
+            <ul>
+                <li v-for="i in categoryData.children" :key="i.id">
+                    <RouterLink to="/">
+                        <img :src="i.picture" />
+                        <p>{{ i.name }}</p>
+                    </RouterLink>
+                </li>
+            </ul>
+        </div>
+        <div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
+            <div class="head">
+                <h3>- {{ item.name }}-</h3>
+            </div>
+            <div class="body">
+                <GoodsItem v-for="good in item.goods" :good="good" :key="good.id" />
+            </div>
         </div>
     </div>
 </template>
@@ -134,6 +157,7 @@ onMounted(() => getBanner())
     width: 1240px;
     height: 500px;
     margin: 0 auto;
+
     img {
         width: 100%;
         height: 500px;
