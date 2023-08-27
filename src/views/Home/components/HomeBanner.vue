@@ -6,7 +6,6 @@ const bannerList = ref([])
 //action 获取导航数据的方法
 const getBanner = async () => {
   const res = await getBannerAPI()
-  console.log(res.data.result);
   bannerList.value = res.data.result;
 }
 

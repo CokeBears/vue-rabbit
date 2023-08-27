@@ -1,33 +1,10 @@
 <script setup>
-import { getBannerAPI } from '@/apis/home';
-import { getCategoryAPI } from '@/apis/category';
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useBanner } from './composables/useBanner'
+import { useCategory } from './composables/useCategory'
 import GoodsItem from '../Home/components/GoodsItem.vue';
 
-//获取数据
-const categoryData = ref({})
-const route = useRoute()
-const getCategory = async () => {
-    const res = await getCategoryAPI(route.params.id)//由传参形式决定使用
-    categoryData.value = res.data.result
-}
-onMounted(() => getCategory())
-
-
-
-const bannerList = ref([])
-
-//action 获取导航数据的方法
-const getBanner = async () => {
-    const res = await getBannerAPI({
-        distributionSite: '2'
-    })
-    console.log(res.data.result);
-    bannerList.value = res.data.result;
-}
-
-onMounted(() => getBanner())
+const { bannerList } = useBanner()
+const { categoryData } = useCategory()
 
 </script>
 
