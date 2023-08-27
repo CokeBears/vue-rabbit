@@ -1,5 +1,5 @@
 //封装轮播图相关代码
-import { getBannerAPI } from '@/apis/home';
+import { getBannerAPI } from '@/apis/home'
 import { ref, onMounted } from 'vue'
 export function useBanner() {
     const bannerList = ref([])
