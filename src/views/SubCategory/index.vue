@@ -9,7 +9,7 @@ const categoryData = ref({})
 const route = useRoute()
 const getcategoryData = async () => {
   const res = await getCategoryFilterAPI(route.params.id)
-  categoryData.value =  res.data.result
+  categoryData.value = res.data.result
 }
 onMounted(() => getcategoryData())
 
@@ -22,12 +22,19 @@ const reqData = ref({
   pageSize: 20,
   sortField: 'publishTime'
 })
-const getGoodsList = async () =>{
+const getGoodsList = async () => {
   const res = await getSubCategoryAPI(reqData.value)
   goodsList.value = res.data.result.items
 }
-onMounted(()=>getGoodsList())
+onMounted(() => getGoodsList())
 
+
+// tab切换回调
+const tabChange = () => {
+  // console.log('tab切换了', reqData.value.sortField)
+  reqData.value.page = 1
+  getGoodList()
+}
 </script>
 
 <template>
@@ -42,14 +49,14 @@ onMounted(()=>getGoodsList())
       </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <el-tabs>
+      <el-tabs v-model="reqData.sortField" @tab-change="tabChange">
         <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
       <div class="body">
         <!-- 商品列表-->
-        <GoodsItem v-for="good in goodsList" :key="good.id" :good="good"/>
+        <GoodsItem v-for="good in goodsList" :key="good.id" :good="good" />
       </div>
     </div>
   </div>
