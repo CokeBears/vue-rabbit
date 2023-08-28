@@ -2,6 +2,8 @@
 import { getCategoryFilterAPI } from '@/apis/category';
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { getSubCategoryAPI } from '@/apis/category';
+import GoodsItem from '../Home/components/GoodsItem.vue';
 
 const categoryData = ref({})
 const route = useRoute()
@@ -10,6 +12,21 @@ const getcategoryData = async () => {
   categoryData.value =  res.data.result
 }
 onMounted(() => getcategoryData())
+
+
+//获取基础列表数据渲染
+const goodsList = ref([])
+const reqData = ref({
+  categoryId: route.params.id,
+  page: 1,
+  pageSize: 20,
+  sortField: 'publishTime'
+})
+const getGoodsList = async () =>{
+  const res = await getSubCategoryAPI(reqData.value)
+  goodsList.value = res.data.result.items
+}
+onMounted(()=>getGoodsList())
 
 </script>
 
@@ -32,6 +49,7 @@ onMounted(() => getcategoryData())
       </el-tabs>
       <div class="body">
         <!-- 商品列表-->
+        <GoodsItem v-for="good in goodsList" :key="good.id" :good="good"/>
       </div>
     </div>
   </div>
