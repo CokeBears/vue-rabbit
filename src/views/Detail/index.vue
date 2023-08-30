@@ -1,15 +1,21 @@
 <script setup>
+import ImageView from '@/components/ImageView/index.vue'
 import DetailHot from './components/DetailHot.vue'
 import { getDetail } from '@/apis/detail'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+
+
 const goods = ref({})
 const route = useRoute()
 const getGoods = async () => {
   const res = await getDetail(route.params.id)
   goods.value = res.data.result
+  console.log(goods.mainPictures);
 }
 onMounted(() => getGoods())
+
+
 </script>
 
 <template>
@@ -38,7 +44,7 @@ onMounted(() => getGoods())
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-
+              <ImageView :imageList="goods.mainPictures"/>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
