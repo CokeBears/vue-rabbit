@@ -23,7 +23,7 @@ const getHotList = async () => {
         id: route.params.id,
         type: props.hotType
     })
-    goodList.value = res.data.result
+    goodList.value = res.result
 }
 onMounted(()=>getHotList())
 

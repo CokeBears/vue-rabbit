@@ -1,30 +1,36 @@
 //axios基础封装
 import axios from "axios";
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import { useUserStore } from '@/stores/user'
+
 
 const httpInstance = axios.create({
-    baseURL:'http://pcapi-xiaotuxian-front-devtest.itheima.net',
-    timeout:5000
+  baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
+  timeout: 5000
 })
 
 //拦截器
-// 添加请求拦截器
-axios.interceptors.request.use(function (config) {
-    // 在发送请求之前做些什么
-    return config;
-  }, function (error) {
-    // 对请求错误做些什么
-    return Promise.reject(error);
-  });
+// axios请求拦截器
+httpInstance.interceptors.request.use(config => {
+  // 1. 从pinia获取token数据
+  const userStore = useUserStore()
+  // 2. 按照后端的要求拼接token数据
+  const token = userStore.userInfo.token
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+}, e => Promise.reject(e))
 
-// 添加响应拦截器
-axios.interceptors.response.use(function (response) {
-    // 2xx 范围内的状态码都会触发该函数。
-    // 对响应数据做点什么
-    return response;
-  }, function (error) {
-    // 超出 2xx 范围的状态码都会触发该函数。
-    // 对响应错误做点什么
-    return Promise.reject(error);
-  });
+// axios响应式拦截器
+httpInstance.interceptors.response.use(res => res.data, e => {
+  // 统一错误提示
+  ElMessage({
+    type: 'warning',
+    message: e.response.data.message
+  })
+  return Promise.reject(e)
+})
 
 export default httpInstance

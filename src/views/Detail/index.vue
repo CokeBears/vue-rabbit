@@ -8,7 +8,7 @@ const goods = ref({})
 const route = useRoute()
 const getGoods = async () => {
   const res = await getDetail(route.params.id)
-  goods.value = res.data.result
+  goods.value = res.result
   console.log(goods.mainPictures);
 }
 onMounted(() => getGoods())

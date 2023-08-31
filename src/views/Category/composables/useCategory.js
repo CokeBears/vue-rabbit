@@ -8,7 +8,7 @@ export function useCategory() {
     const route = useRoute()
     const getCategory = async () => {
         const res = await getCategoryAPI(route.params.id)//由传参形式决定使用
-        categoryData.value = res.data.result
+        categoryData.value = res.result
     }
     onMounted(() => getCategory())
 

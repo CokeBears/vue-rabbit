@@ -9,7 +9,7 @@ const categoryData = ref({})
 const route = useRoute()
 const getcategoryData = async () => {
   const res = await getCategoryFilterAPI(route.params.id)
-  categoryData.value = res.data.result
+  categoryData.value = res.result
 }
 onMounted(() => getcategoryData())
 
@@ -24,7 +24,7 @@ const reqData = ref({
 })
 const getGoodsList = async () => {
   const res = await getSubCategoryAPI(reqData.value)
-  goodsList.value = res.data.result.items
+  goodsList.value = res.result.items
 }
 onMounted(() => getGoodsList())
 
