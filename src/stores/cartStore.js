@@ -1,7 +1,7 @@
 //封装购物车模块
 
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 
 export const useCartStore = defineStore('cart', () => {
     //定义stare - cartList
@@ -19,10 +19,27 @@ export const useCartStore = defineStore('cart', () => {
         } else {
             cartList.value.push(goods)
         }
+
     }
+
+    //删除购物车
+    const delCart = (skuId) => {
+        //思路：1.找到删除项的下标值 - splice
+        //2.使用数组过滤方法 - filter
+        const idx = cartList.value.findIndex((item) => skuId === item.skuId)
+        cartList.value.splice(idx, 1)
+    }
+
+    //使用reduce()函数求数组的和，共传入两个参数，一个回调函数(a,c)=>a+c.count,一个初始值0。
+    //(a,c)=>a+c.count回调函数携带参数a：每次累加后的值，c：数组的每一项元素。c.count即为单种商品的数量
+    const allCount = computed(()=>cartList.value.reduce((a,c)=>a+c.count,0))//商品总数
+    const allPrice = computed(()=>cartList.value.reduce((a,c)=>a+c.price*c.count,0))//商品总价格
     return {
+        allCount,
+        allPrice,
         cartList,
-        addCart
+        addCart,
+        delCart
     }
 }, {
     persist: true,
