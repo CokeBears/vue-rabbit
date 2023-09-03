@@ -1,7 +1,7 @@
 //封装购物车模块
 
 import { defineStore } from 'pinia'
-import { ref,computed } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useCartStore = defineStore('cart', () => {
     //定义stare - cartList
@@ -32,14 +32,20 @@ export const useCartStore = defineStore('cart', () => {
 
     //使用reduce()函数求数组的和，共传入两个参数，一个回调函数(a,c)=>a+c.count,一个初始值0。
     //(a,c)=>a+c.count回调函数携带参数a：每次累加后的值，c：数组的每一项元素。c.count即为单种商品的数量
-    const allCount = computed(()=>cartList.value.reduce((a,c)=>a+c.count,0))//商品总数
-    const allPrice = computed(()=>cartList.value.reduce((a,c)=>a+c.price*c.count,0))//商品总价格
+    const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))//商品总数
+    const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.price * c.count, 0))//商品总价格
+
+    const singleCheck = (skuId, selected) => {
+        const item = cartList.value.find((item) => item.skuId === skuId)
+        item.selected = selected
+    }
     return {
         allCount,
         allPrice,
         cartList,
         addCart,
-        delCart
+        delCart,
+        singleCheck
     }
 }, {
     persist: true,
