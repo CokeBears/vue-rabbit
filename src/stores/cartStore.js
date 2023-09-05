@@ -59,6 +59,11 @@ export const useCartStore = defineStore('cart', () => {
         }
     }
 
+    //退出登录时清空购物车
+    const clearCart = () => {
+        cartList.value = []
+    }
+
     //使用reduce()函数求数组的和，共传入两个参数，一个回调函数(a,c)=>a+c.count,一个初始值0。
     //(a,c)=>a+c.count回调函数携带参数a：每次累加后的值，c：数组的每一项元素。c.count即为单种商品的数量
     const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))//商品总数
@@ -95,7 +100,8 @@ export const useCartStore = defineStore('cart', () => {
         isAll,
         allCheck,
         selectedCount,
-        selectedPrice
+        selectedPrice,
+        clearCart
     }
 }, {
     persist: true,
