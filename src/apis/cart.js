@@ -23,10 +23,19 @@ export const findNewCartAPI = () => {
 // 删除购物车
 export const delCartAPI = (ids) => {
     return httpInstance({
-      url: '/member/cart',
-      method: 'DELETE',
-      data: {
-        ids
-      }
+        url: '/member/cart',
+        method: 'DELETE',
+        data: {
+            ids
+        }
     })
-  }
+}
+
+//登录时将本地购物车合并入后台数据
+export const mergeCartAPI = (data) => {
+    return httpInstance({
+        url: '/member/cart/merge',
+        method: 'POST',
+        data
+    })
+} 
