@@ -41,6 +41,7 @@ const createOrder = async () => {
         payType: 1,
         payChannel: 1,
         buyerMessage: '',
+        // selected: true,
         goods: checkInfo.value.goods.map(item => {
             return {
                 skuId: item.skuId,
