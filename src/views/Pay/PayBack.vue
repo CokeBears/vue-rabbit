@@ -22,12 +22,12 @@ onMounted(() => getOrderInfo())
                 <span class="iconfont icon-queren2 green" v-if="$route.query.payResult === 'true'"></span>
                 <span class="iconfont icon-shanchu red" v-else></span>
                 <p class="tit">支付{{ $route.query.payResult === 'true' ? '成功' : '失败' }}</p>
-                <p class="tip">我们将尽快为您发货，收货期间请保持手机畅通</p>
-                <p>支付方式：<span>支付宝</span></p>
-                <p>支付金额：<span>¥{{ orderInfo.payMoney?.toFixed(2) }}</span></p>
+                <p class="tip">{{ $route.query.payResult === 'true' ? '我们将尽快为您发货，收货期间请保持手机畅通' : '支付失败，请重新支付' }}</p>
+                <p v-if="$route.query.payResult === 'true'">支付方式：<span>支付宝</span></p>
+                <p v-if="$route.query.payResult === 'true'">支付金额：<span>¥{{ orderInfo.payMoney?.toFixed(2) }}</span></p>
                 <div class="btn">
                     <el-button type="primary" style="margin-right:20px">查看订单</el-button>
-                    <el-button>进入首页</el-button>
+                    <el-button @click="$router.push('/')">进入首页</el-button>
                 </div>
                 <p class="alert">
                     <span class="iconfont icon-tip"></span>
