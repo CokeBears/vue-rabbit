@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { loginAPI } from '@/apis/user'
 import { useCartStore } from './cartStore'
-import { findNewCartAPI, mergeCartAPI } from '@/apis/cart'
+import { mergeCartAPI } from '@/apis/cart'
 
 export const useUserStore = defineStore('user', () => {
   const cartStore = useCartStore()
@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', () => {
           count:item.count
         }
     }))
-    cartStore.findNewCartAPI()
+    cartStore.updateNewList()
   }
   //退出时清除用户信息
   const clearUserInfo = () => {
