@@ -54,7 +54,7 @@ const allCheck = (selected) => {
                 <p>&yen;{{ i.price }}</p>
               </td>
               <td class="tc">
-                <el-input-number v-model="i.count" :min="1"/>
+                <el-input-number v-model="i.count" :min="1" />
               </td>
               <td class="tc">
                 <p class="f16 red">&yen;{{ (i.price * i.count).toFixed(2) }}</p>
